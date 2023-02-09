@@ -1,42 +1,60 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
 
 	return (
 		<div className="app">
-			<div className="left">
-				<div id="channel-list" className="flex-v"></div>
+			{/* top bar */}
+			<div className="top-bar">
+
+				<div className="left">
+					hopper
+				</div>
+
+				<div className="center">
+					general
+				</div>
 			</div>
 
-			<div className="center">
-				<div id="chat-window" className="flex-v"></div>
+			<div className="everything">
 
-				<form id="chat-form">
-					<div className="message-bar">
-						<input
-							autocomplete="off"
-							type="text"
-							id="message-input"
-							placeholder="Message..."
-						/>
+				{/* Sidebar */}
+				<div className="left">
+					<div id="channel-list">
 					</div>
-				</form>
-			</div>
 
-			<div className="right">
-				<form id="username-form">
-					<button
-						type="button"
-						onclick="window.open('/app/login');"
-					>
-						Login
-					</button>
-				</form>
-				<div id="user-list" className="flex-v"></div>
+					<div id="user" >
+						John Doe
+					</div>
+				</div>
+
+				{/* Chat window */}
+				<div className="center">
+
+					{/* chat history */}
+					<div id="chat-window" className="flex-v"></div>
+
+					{/* message bar */}
+					<form id="chat-form">
+						<div className="message-bar">
+							<input
+								autoComplete="off"
+								type="text"
+								id="message-input"
+								placeholder="Message..."
+							/>
+						</div>
+					</form>
+				</div>
+
+				{/* User list */}
+				<div className="right">
+					<div id="user-list" className="flex-v"></div>
+				</div>
+
 			</div>
-		</div>
+		</div >
 	)
 
 }
