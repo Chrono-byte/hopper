@@ -1,19 +1,38 @@
 import { useState } from "react";
 import "./App.css";
 
-function ChatWindow() {
-	const [messages, setMessages] = useState([]);
+import client from "./Client";
 
-	const addMessage = (msg) => {
-		setMessages([...messages, msg]);
+function TopBar() {
+	const selectChannel = (channel) => {
+		setCurrentChannel(channel);
 	};
 
-	const removeMessage = (msg) => {
-		setMessages(messages.filter((m) => m !== msg));
-	};
+	const [currentChannel, setCurrentChannel] = useState(null);
 
 	return (
-		<div id="chat-window">
+		<div className="top-bar">
+			<div className="left">
+				<b>hopper</b>
+			</div>
+
+			<div className="center">
+				<a>
+					<b>#</b>
+					{currentChannel ? currentChannel : "none"}
+				</a>
+			</div>
+
+			<div className="right">
+				<input type="text" placeholder="Search" />
+			</div>
+		</div>
+	);
+}
+
+function ChatWindow() {
+	return (
+		<div id="chat-window" className="center">
 			<div id="chat-history"></div>
 
 			{/* message bar */}
@@ -26,32 +45,6 @@ function ChatWindow() {
 					placeholder="Message..."
 				/>
 			</form>
-		</div>
-	);
-}
-
-function TopBar() {
-	const [currentChannel, setCurrentChannel] = useState(null);
-
-	const selectChannel = (channel) => {
-		setCurrentChannel(channel);
-	};
-
-	return (
-		<div className="top-bar">
-			<div className="left">
-				<b>hopper</b>
-			</div>
-
-			<div className="center">
-				<a>
-					<b>#</b>general
-				</a>
-			</div>
-
-			<div className="right">
-				<a>🔍</a>
-			</div>
 		</div>
 	);
 }
@@ -72,7 +65,7 @@ function UserList() {
 	};
 
 	return (
-		<div id="user-list" className="flex-v">
+		<div id="user-list">
 			{users.map((user, i) => {
 				return (
 					<div key={i} className="user">
@@ -111,7 +104,7 @@ function ChannelList() {
 	};
 
 	return (
-		<div id="channel-list" className="flex-v">
+		<div id="channel-list">
 			{channels.map((channel, i) => {
 				return (
 					<div key={i} className="channel">
@@ -130,6 +123,10 @@ function CurrentUserInfo() {
 		setCurrentUser(user);
 	};
 
+	const loginAsAdmin = () => {
+		client.login("admin@disilla.org", "password");
+	};
+
 	return (
 		<div id="user">
 			{/* user profile picture, rounded cover over image */}
@@ -142,6 +139,9 @@ function CurrentUserInfo() {
 			</div>
 
 			<a>{currentUser ? currentUser : "John Doe"}</a>
+
+			{/* login as admin button */}
+			<button onClick={loginAsAdmin}>Login as admin</button>
 		</div>
 	);
 }
@@ -151,26 +151,21 @@ function App() {
 		<div className="app">
 			{/* top bar */}
 			<TopBar />
+			{/* Sidebar */}
+			<div className="left">
+				{/* channel list */}
+				<ChannelList />
 
-			<div className="everything">
-				{/* Sidebar */}
-				<div className="left">
-					{/* channel list */}
-					<ChannelList />
+				{/* user info */}
+				<CurrentUserInfo />
+			</div>
 
-					{/* user info */}
-					<CurrentUserInfo />
-				</div>
+			{/* Chat window */}
+			<ChatWindow />
 
-				{/* Chat window */}
-				<div className="center">
-					<ChatWindow />
-				</div>
-
-				{/* User list */}
-				<div className="right">
-					<UserList />
-				</div>
+			{/* User list */}
+			<div className="right">
+				<UserList />
 			</div>
 		</div>
 	);
